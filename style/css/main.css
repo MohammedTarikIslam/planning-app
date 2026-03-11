@@ -1,0 +1,180 @@
+body {
+  background-image: url(../../images/pexels-stephan-seeber-1054201.jpg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin: 0;
+  padding: 0rem;
+  background-color: lightblue;
+  height: 100vh;
+}
+
+header {
+  width: 100vw;
+  height: 100vh;
+  margin: 0px auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+
+.intro {
+  background: transparent;
+  backdrop-filter: blur(3px);
+  margin: 0.5rem;
+  padding: 2rem;
+  border-radius: 4rem;
+  color: white;
+  font-weight: 1600;
+  text-align: center;
+  font-size: 4rem;
+}
+@media (max-width: 480px) {
+  .intro {
+    font-size: 2rem;
+    padding: 1rem;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .intro {
+    font-size: 3rem;
+    padding: 1rem;
+  }
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0%;
+  margin: 0%;
+  filter: grayscale(0.75);
+}
+.image:hover {
+  filter: grayscale(0);
+  transition: all 500ms ease-in;
+}
+
+.img {
+  display: block;
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.allcards {
+  padding: 2rem;
+  margin: auto;
+  border-radius: 1rem;
+  background: transparent;
+  backdrop-filter: blur(3px);
+  display: grid;
+  max-width: 1300px;
+  width: 80%;
+  grid-gap: 1rem;
+  justify-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+@media (max-width: 480px) {
+  .allcards {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+}
+
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: white;
+  margin: 0.5rem;
+  box-shadow: 4px 8px 8px rgb(44, 44, 44);
+}
+.card__title {
+  color: black;
+  text-align: center;
+  margin: 0.5rem;
+}
+.card__description {
+  color: black;
+  margin: 0.5rem;
+}
+
+@media (min-width: 769px) {
+  .education {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 769px) {
+  .cost {
+    grid-row: span 2;
+  }
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 50%;
+  margin: 2rem auto;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
+}
+.links__images {
+  border-radius: 1rem;
+  display: block;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+}
+
+.picture {
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+}
+@media (min-width: 769px) {
+  .picture {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+}
+.picture:hover {
+  filter: grayscale(0.5);
+  transition: all 500ms ease-in;
+}
+
+.education-desc {
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+}
+@media (max-width: 480px) {
+  .education-desc {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+}
+
+@media (min-width: 481px) and (max-width: 1052px) {
+  .cost {
+    order: 0;
+  }
+  .split {
+    order: 1;
+  }
+  .flights {
+    order: 2;
+  }
+  .hotels {
+    order: 3;
+  }
+  .food {
+    order: 4;
+  }
+  .activities {
+    order: 5;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */

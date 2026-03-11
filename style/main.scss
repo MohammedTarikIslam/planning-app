@@ -1,0 +1,176 @@
+@use "./variables" as *;
+@use "sass:map";
+
+body {
+  //background-image: url(./images/pexels-stephan-seeber-1054201.jpg);
+  background-image: url(../../images/pexels-stephan-seeber-1054201.jpg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  margin: 0;
+  padding: 0rem;
+  background-color: map.get($background-colour, page);
+  height: 100vh;
+}
+
+header {
+  width: 100vw;
+  height: 100vh;
+  margin: 0px auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+
+.intro {
+  background: transparent;
+  backdrop-filter: blur(3px);
+  margin: 0.5rem;
+  padding: 2rem;
+  border-radius: 4rem;
+
+  color: map.get($font-color, intro);
+  font-weight: map.get($font-weight, intro);
+  text-align: center;
+  font-size: 4rem;
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+    padding: 1rem;
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 3rem;
+    padding: 1rem;
+  }
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0%;
+  margin: 0%;
+  filter: grayscale(0.75);
+  &:hover {
+    filter: grayscale(0);
+    transition: all 500ms ease-in;
+  }
+}
+
+.allcards {
+  padding: 2rem;
+  margin: auto;
+  border-radius: 1rem;
+  background: transparent;
+  backdrop-filter: blur(3px);
+  display: grid;
+  max-width: 1300px;
+  width: 80%;
+  grid-gap: 1rem;
+  justify-content: start;
+
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+}
+
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: map.get($background-colour, card);
+  margin: 0.5rem;
+  box-shadow: 4px 8px 8px rgb(44, 44, 44);
+  &__title {
+    color: map.get($font-color, title);
+    text-align: center;
+    margin: 0.5rem;
+  }
+  &__description {
+    color: map.get($font-color, body);
+    margin: 0.5rem;
+  }
+}
+
+.hotels {
+  @media (min-width: 769px) {
+    grid-column: span 2;
+  }
+}
+
+.cost {
+  @media (min-width: 769px) {
+    grid-row: span 2;
+  }
+}
+
+.food {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 50%;
+  margin: 2rem auto;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
+  &__images {
+    border-radius: 1rem;
+    display: block;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    // box-shadow: 4px 8px 8px rgb(44, 44, 44);
+    // max-width: 100px;
+    // height: auto;
+    // width: auto;
+  }
+}
+
+.flights {
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+
+  @media (min-width: 769px) {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+
+  &:hover {
+    filter: grayscale(0.5);
+    transition: all 500ms ease-in;
+  }
+}
+
+.column-desc {
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+}
+
+@media (min-width: 481px) and (max-width: 1052px) {
+  .cost {
+    order: 0;
+  }
+  .split {
+    order: 1;
+  }
+  .flights {
+    order: 2;
+  }
+  .hotels {
+    order: 3;
+  }
+  .food {
+    order: 4;
+  }
+  .activities {
+    order: 5;
+  }
+}

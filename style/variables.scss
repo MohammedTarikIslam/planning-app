@@ -1,0 +1,23 @@
+//STORE VARIABLES TO MAKE ADJUSTING EASIER
+//stores colour as variable
+$background-colour: (
+  "page": lightblue,
+  "card": white,
+  //"body": blue,
+);
+
+//stores map of variables
+$font-color: (
+  "intro": white,
+  "title": black,
+  "subtitle": orange,
+  "body": black,
+);
+$font-weight: (
+  "intro": 1600,
+  "title": 700,
+  "subtitle": 500,
+  "body": 400,
+);
+
+$font-family: "Montserrat", sans-serif;
