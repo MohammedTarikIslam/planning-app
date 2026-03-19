@@ -154,6 +154,13 @@ header {
   }
 }
 
+#test {
+  &:empty::before {
+    content: attr(data-placeholder);
+    color: #3f3f3f;
+  }
+}
+
 @media (min-width: 481px) and (max-width: 1052px) {
   .cost {
     order: 0;

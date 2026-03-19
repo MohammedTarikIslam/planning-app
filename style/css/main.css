@@ -14,7 +14,7 @@ header {
   width: 100vw;
   height: 100vh;
   margin: 0px auto;
-  display: flex;
+  display: flex;  
   justify-content: space-around;
   align-items: center;
   text-align: center;
@@ -57,14 +57,6 @@ header {
   transition: all 500ms ease-in;
 }
 
-.img {
-  display: block;
-  aspect-ratio: 1/1;
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
 .allcards {
   padding: 2rem;
   margin: auto;
@@ -102,7 +94,7 @@ header {
 }
 
 @media (min-width: 769px) {
-  .education {
+  .hotels {
     grid-column: span 2;
   }
 }
@@ -113,7 +105,7 @@ header {
   }
 }
 
-.links {
+.food {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,38 +114,43 @@ header {
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
 }
-.links__images {
+.food__images {
   border-radius: 1rem;
   display: block;
   aspect-ratio: 1/1;
   overflow: hidden;
 }
 
-.picture {
+.flights {
   display: grid;
   flex-wrap: wrap;
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 }
 @media (min-width: 769px) {
-  .picture {
+  .flights {
     grid-row: span 2;
     grid-column: span 2;
   }
 }
-.picture:hover {
+.flights:hover {
   filter: grayscale(0.5);
   transition: all 500ms ease-in;
 }
 
-.education-desc {
+.column-desc {
   display: grid;
   flex-wrap: wrap;
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 }
 @media (max-width: 480px) {
-  .education-desc {
+  .column-desc {
     grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
   }
+}
+
+#test:empty::before {
+  content: attr(data-placeholder);
+  color: #3f3f3f;
 }
 
 @media (min-width: 481px) and (max-width: 1052px) {
@@ -175,6 +172,4 @@ header {
   .activities {
     order: 5;
   }
-}
-
-/*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=main.css.map */
