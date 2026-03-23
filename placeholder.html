@@ -1,0 +1,14 @@
+      <div class="card test">
+        <h2 class="card__title">text input test</h2>
+        <input id="holidayInput" type="text" placeholder="Test text input">
+        <button onclick="addHoliday()">Add</button>
+        <p id="display"></p>
+      </div>
+
+
+function addHoliday() {
+
+  const input = document.getElementById("holidayInput").value;
+  document.getElementById("display").innerText = input;
+
+}

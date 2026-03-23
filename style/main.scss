@@ -10,20 +10,45 @@ body {
   background-size: cover;
 
   margin: 0;
-  padding: 0rem;
+  padding: 0;
   background-color: map.get($background-colour, page);
-  height: 100vh;
+  min-height: 100%;
+}
+
+.savebutton {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+
+  background-color: white;
+  color: black;
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  filter: grayscale(0.75);
+  transition: filter 500ms ease-in;
+
+  &:hover {
+    filter: grayscale(0);
+  }
 }
 
 header {
   width: 100vw;
   height: 100vh;
-  margin: 0px auto;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-around;
   align-items: center;
   text-align: center;
 }
+
+
 
 .intro {
   background: transparent;
@@ -52,12 +77,13 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0%;
-  margin: 0%;
+  padding: 0;
+  margin: 0;
   filter: grayscale(0.75);
+  transition: filter 500ms ease-in;
+
   &:hover {
     filter: grayscale(0);
-    transition: all 500ms ease-in;
   }
 }
 
@@ -70,7 +96,7 @@ header {
   display: grid;
   max-width: 1300px;
   width: 80%;
-  grid-gap: 1rem;
+  gap: 1rem;
   justify-content: start;
 
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
@@ -84,6 +110,7 @@ header {
   overflow: hidden;
   background-color: map.get($background-colour, card);
   margin: 0.5rem;
+  padding : 0.5rem;
   box-shadow: 4px 8px 8px rgb(44, 44, 44);
   &__title {
     color: map.get($font-color, title);
@@ -106,32 +133,43 @@ header {
   @media (min-width: 769px) {
     grid-row: span 2;
   }
-}
-
-.food {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 50%;
-  margin: 2rem auto;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
-  &__images {
-    border-radius: 1rem;
-    display: block;
-    aspect-ratio: 1/1;
-    overflow: hidden;
-    // box-shadow: 4px 8px 8px rgb(44, 44, 44);
-    // max-width: 100px;
-    // height: auto;
-    // width: auto;
+  &__sum {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   }
 }
 
+// .food {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   max-width: 50%;
+//   margin: 2rem auto;
+//   grid-gap: 1rem;
+//   grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
+//   &__images {
+//     border-radius: 1rem;
+//     display: block;
+//     aspect-ratio: 1/1;
+//     overflow: hidden;
+//     box-shadow: 4px 8px 8px rgb(44, 44, 44);
+//     max-width: 100px;
+//     height: auto;
+//     width: auto;
+//   }
+// }
+
 .flights {
-  display: grid;
-  flex-wrap: wrap;
-  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  .flights__details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  }
+  &__details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  }
+  
+  transition: filter 500ms ease-in;
 
   @media (min-width: 769px) {
     grid-row: span 2;
@@ -140,13 +178,11 @@ header {
 
   &:hover {
     filter: grayscale(0.5);
-    transition: all 500ms ease-in;
   }
 }
 
 .column-desc {
   display: grid;
-  flex-wrap: wrap;
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 
   @media (max-width: 480px) {
@@ -154,7 +190,7 @@ header {
   }
 }
 
-#test {
+[contenteditable="true"] {
   &:empty::before {
     content: attr(data-placeholder);
     color: #3f3f3f;

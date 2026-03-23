@@ -5,16 +5,35 @@ body {
   background-position: center;
   background-size: cover;
   margin: 0;
-  padding: 0rem;
+  padding: 0;
   background-color: lightblue;
-  height: 100vh;
+  min-height: 100%;
+}
+
+.savebutton {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: white;
+  color: black;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  filter: grayscale(0.75);
+  transition: filter 500ms ease-in;
+}
+.savebutton:hover {
+  filter: grayscale(0);
 }
 
 header {
   width: 100vw;
   height: 100vh;
-  margin: 0px auto;
-  display: flex;  
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-around;
   align-items: center;
   text-align: center;
@@ -48,13 +67,13 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0%;
-  margin: 0%;
+  padding: 0;
+  margin: 0;
   filter: grayscale(0.75);
+  transition: filter 500ms ease-in;
 }
 .image:hover {
   filter: grayscale(0);
-  transition: all 500ms ease-in;
 }
 
 .allcards {
@@ -66,7 +85,7 @@ header {
   display: grid;
   max-width: 1300px;
   width: 80%;
-  grid-gap: 1rem;
+  gap: 1rem;
   justify-content: start;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 }
@@ -81,6 +100,7 @@ header {
   overflow: hidden;
   background-color: white;
   margin: 0.5rem;
+  padding: 0.5rem;
   box-shadow: 4px 8px 8px rgb(44, 44, 44);
 }
 .card__title {
@@ -104,27 +124,21 @@ header {
     grid-row: span 2;
   }
 }
-
-.food {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 50%;
-  margin: 2rem auto;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
-}
-.food__images {
-  border-radius: 1rem;
-  display: block;
-  aspect-ratio: 1/1;
-  overflow: hidden;
-}
-
-.flights {
+.cost__sum {
   display: grid;
-  flex-wrap: wrap;
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+}
+
+.flights .flights__details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+}
+.flights__details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+}
+.flights {
+  transition: filter 500ms ease-in;
 }
 @media (min-width: 769px) {
   .flights {
@@ -134,12 +148,10 @@ header {
 }
 .flights:hover {
   filter: grayscale(0.5);
-  transition: all 500ms ease-in;
 }
 
 .column-desc {
   display: grid;
-  flex-wrap: wrap;
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 }
 @media (max-width: 480px) {
@@ -148,7 +160,7 @@ header {
   }
 }
 
-#test:empty::before {
+[contenteditable=true]:empty::before {
   content: attr(data-placeholder);
   color: #3f3f3f;
 }
