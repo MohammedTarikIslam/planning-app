@@ -4,9 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style/css/main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
   <title>Holiday Planning App</title>
 </head>
 <body>
+  <div>
+    <SignIn /> function mountSignIn(node: HTMLDivElement, props?: SignInProps): void
+  </div>
+  <div id="clerk-sign-in"></div>
+  <div id="clerk-user-button"></div>
+  <div id="app-content" style="display:none;">
   <header>
     <h1 class="intro">PLANNING APP  </h1>
     <button class="savebutton" onclick="saveData()">Save</button>
@@ -64,9 +71,6 @@
       <h2 class="card__title">Flights</h2>
       <div class="flights__details">
         <p contenteditable="true" id="traveldesc" data-placeholder="Enter the travel details"></p>
-        <p contenteditable="true" id="traveldesc2" data-placeholder="Enter the travel details"></p>
-        <p contenteditable="true" id="traveldesc3" data-placeholder="Enter the travel details"></p>
-
       </div>
     </div>
 
@@ -93,7 +97,7 @@
   </section>
 
   <script src="script.js"></script>
-
+  </div>
 </body>
 
 </html>
