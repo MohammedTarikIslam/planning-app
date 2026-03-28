@@ -130,7 +130,7 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
         hoteldesc,
         fooddesc,
         activitiesdesc,
-        updatedate
+        updated_at
       )
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(user_id) DO UPDATE SET
@@ -143,7 +143,7 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
       hoteldesc = excluded.hoteldesc,
       fooddesc = excluded.fooddesc,
       activitiesdesc = excluded.activitiesdesc,
-      updatedate = CURRENT_TIMESTAMP
+      updated_at = CURRENT_TIMESTAMP
       `);
       
     stmt.run(
