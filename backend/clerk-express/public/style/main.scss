@@ -15,6 +15,15 @@ body {
   min-height: 100%;
 }
 
+.authpage {
+  backdrop-filter: blur(3px);
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .savebutton {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
@@ -47,8 +56,6 @@ header {
   align-items: center;
   text-align: center;
 }
-
-
 
 .intro {
   background: transparent;
@@ -124,8 +131,22 @@ header {
 }
 
 .hotels {
-  @media (min-width: 769px) {
+  @media (min-width: 1240px) {
     grid-column: span 2;
+  }
+  @media (max-width: 1240px) {
+    grid-column: span 1;
+  }
+  &__info {
+    @media (min-width: 640px) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    }
+    @media (max-width: 640px) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }  
   }
 }
 
@@ -139,28 +160,29 @@ header {
   }
 }
 
-// .food {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   max-width: 50%;
-//   margin: 2rem auto;
-//   grid-gap: 1rem;
-//   grid-template-columns: repeat(auto-fit, minmax(1rem, 1fr));
-//   &__images {
-//     border-radius: 1rem;
-//     display: block;
-//     aspect-ratio: 1/1;
-//     overflow: hidden;
-//     box-shadow: 4px 8px 8px rgb(44, 44, 44);
-//     max-width: 100px;
-//     height: auto;
-//     width: auto;
-//   }
-// }
+.sectioned-cost {
+  margin-top: 1rem;
+}
 
 .flights {
-  .flights__details {
+  @media (min-width: 1240px) {
+    grid-column: span 2;
+  }
+  @media (max-width: 1240px) {
+    grid-column: span 1;
+  }
+  &__info {
+    @media (min-width: 640px) {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    }
+    @media (max-width: 640px) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }  
+  }
+  &__details {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   }
@@ -170,11 +192,6 @@ header {
   }
   
   transition: filter 500ms ease-in;
-
-  @media (min-width: 769px) {
-    grid-row: span 2;
-    grid-column: span 2;
-  }
 
   &:hover {
     filter: grayscale(0.5);
@@ -201,19 +218,16 @@ header {
   .cost {
     order: 0;
   }
-  .split {
+  .flights {
     order: 1;
   }
-  .flights {
+  .hotels {
     order: 2;
   }
-  .hotels {
+  .food {
     order: 3;
   }
-  .food {
-    order: 4;
-  }
   .activities {
-    order: 5;
+    order: 4;
   }
 }

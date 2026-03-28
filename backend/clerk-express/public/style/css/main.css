@@ -10,6 +10,15 @@ body {
   min-height: 100%;
 }
 
+.authpage {
+  backdrop-filter: blur(3px);
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .savebutton {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
@@ -113,9 +122,27 @@ header {
   margin: 0.5rem;
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1240px) {
   .hotels {
     grid-column: span 2;
+  }
+}
+@media (max-width: 1240px) {
+  .hotels {
+    grid-column: span 1;
+  }
+}
+@media (min-width: 640px) {
+  .hotels__info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .hotels__info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 }
 
@@ -129,7 +156,34 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 }
 
-.flights .flights__details {
+.sectioned-cost {
+  margin-top: 1rem;
+}
+
+@media (min-width: 1240px) {
+  .flights {
+    grid-column: span 2;
+  }
+}
+@media (max-width: 1240px) {
+  .flights {
+    grid-column: span 1;
+  }
+}
+@media (min-width: 640px) {
+  .flights__info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .flights__info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+.flights__details {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 }
@@ -139,12 +193,6 @@ header {
 }
 .flights {
   transition: filter 500ms ease-in;
-}
-@media (min-width: 769px) {
-  .flights {
-    grid-row: span 2;
-    grid-column: span 2;
-  }
 }
 .flights:hover {
   filter: grayscale(0.5);
@@ -169,19 +217,16 @@ header {
   .cost {
     order: 0;
   }
-  .split {
+  .flights {
     order: 1;
   }
-  .flights {
+  .hotels {
     order: 2;
   }
-  .hotels {
+  .food {
     order: 3;
   }
-  .food {
-    order: 4;
-  }
   .activities {
-    order: 5;
+    order: 4;
   }
 }/*# sourceMappingURL=main.css.map */

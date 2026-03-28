@@ -46,10 +46,20 @@ async function loadData() {
   document.getElementById("travelcost").value = data.travelcost || "0";
   document.getElementById("activitiescost").value = data.activitiescost || "0";
   document.getElementById("numberofpeople").value = data.numberofpeople || "1";
-  
-  document.getElementById("test").textContent = data.test || "";
+
   document.getElementById("traveldesc").textContent = data.traveldesc || "";
+  document.getElementById("departureref").value = data.departureref || "";
+  document.getElementById("returnref").value = data.returnref || "";
+  document.getElementById("flightdate").value = data.flightdate || "";
+  document.getElementById("flighttime").value = data.flighttime || "";
+  document.getElementById("returndate").value = data.returndate || "";
+  document.getElementById("returntime").value = data.returntime || "";
+
+  document.getElementById("hotelname").value = data.hotelname || "";
   document.getElementById("hoteldesc").textContent = data.hoteldesc || "";
+  document.getElementById("checkindate").value = data.checkindate || "";
+  document.getElementById("checkoutdate").value = data.checkoutdate || "";
+  
   document.getElementById("fooddesc").textContent = data.fooddesc || "";
   document.getElementById("activitiesdesc").textContent = data.activitiesdesc || "";
   
@@ -57,26 +67,46 @@ async function loadData() {
 }
 
 async function saveData() {
-  const test = document.getElementById("test").textContent.trim();
-  
   const accommodationcost = document.getElementById("accommodationcost").value;
   const travelcost = document.getElementById("travelcost").value;
   const activitiescost = document.getElementById("activitiescost").value;
   const numberofpeople = document.getElementById("numberofpeople").value;
+
   const traveldesc = document.getElementById("traveldesc").textContent.trim();
+  const departureref = document.getElementById("departureref").value;
+  const returnref = document.getElementById("returnref").value;
+  const flightdate = document.getElementById("flightdate").value;
+  const flighttime = document.getElementById("flighttime").value;
+  const returndate = document.getElementById("returndate").value;
+  const returntime = document.getElementById("returntime").value;
+
+  const hotelname = document.getElementById("hotelname").value;
   const hoteldesc = document.getElementById("hoteldesc").textContent.trim();
+  const checkindate = document.getElementById("checkindate").value;
+  const checkoutdate = document.getElementById("checkoutdate").value;
+  
   const fooddesc = document.getElementById("fooddesc").textContent.trim();
   const activitiesdesc = document.getElementById("activitiesdesc").textContent.trim();
 
   const data = {
-    test,
     accommodationcost,
     travelcost,
     activitiescost,
     numberofpeople,
 
     traveldesc,
+    departureref,
+    returnref,
+    flightdate,
+    flighttime,
+    returndate,
+    returntime,
+    
+    hotelname,
     hoteldesc,
+    checkindate,
+    checkoutdate,
+    
     fooddesc,
     activitiesdesc,
   };
@@ -129,12 +159,14 @@ async function startApp() {
   updateCosts();
 
   if (clerkInstance.isSignedIn) {
-    appDiv.innerHTML = '<div id="user-button"></div>';
+    appDiv.innerHTML = "";
+    appDiv.style.display = "none";
     appContent.style.display = "block";
 
-    clerkInstance.mountUserButton(document.getElementById("user-button"));
+    clerkInstance.mountUserButton(document.getElementById("user-button-slot"));
     await loadData();
   } else {
+    appDiv.style.display = "flex";
     appDiv.innerHTML = `<div id="sign-in"></div>`;
     appContent.style.display = "none";
     

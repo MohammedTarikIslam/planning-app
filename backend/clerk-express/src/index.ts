@@ -4,7 +4,6 @@ import express from 'express'
 import { clerkMiddleware, clerkClient, requireAuth, getAuth } from '@clerk/express'
 import db from './db.js'
 
-
 const app = express()
 const PORT = 3000
 const publicPath = path.join(process.cwd(), "public");
@@ -15,9 +14,6 @@ app.use(express.static(publicPath));
 
 console.log("PUBLISHABLE:", process.env.CLERK_PUBLISHABLE_KEY);
 console.log("SECRET:", process.env.CLERK_SECRET_KEY ? "loaded" : "missing");
-
-
-
   
 // This is the default route that gives the home page
 app.get("/", (req, res) => {
@@ -66,13 +62,21 @@ app.get("/api/plans/me", requireAuth(), (req, res) => {
     
     const stmt = db.prepare(`
       SELECT
-      test,
       accommodationcost,
       travelcost,
       activitiescost,
       numberofpeople,
       traveldesc,
+      departureref,
+      returnref,
+      flightdate,
+      flighttime,
+      returndate,
+      returntime,
       hoteldesc,
+      hotelname,
+      checkindate,
+      checkoutdate,
       fooddesc,
       activitiesdesc
       FROM plans
@@ -107,13 +111,21 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
       
       
     const {
-      test,
       accommodationcost,
       travelcost,
       activitiescost,
       numberofpeople,
       traveldesc,
+      flightdate,
+      flighttime,
+      departureref,
+      returnref,
+      returndate,
+      returntime,
       hoteldesc,
+      hotelname,
+      checkindate,
+      checkoutdate,
       fooddesc,
       activitiesdesc,
     } = req.body;
@@ -121,26 +133,42 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
     const stmt = db.prepare(`
       INSERT INTO plans (
         user_id,
-        test,
         accommodationcost,
         travelcost,
         activitiescost,
         numberofpeople,
         traveldesc,
+        departureref,
+        returnref,
+        flightdate,
+        flighttime,
+        returndate,
+        returntime,
         hoteldesc,
+        hotelname,
+        checkindate,
+        checkoutdate,
         fooddesc,
         activitiesdesc,
         updated_at
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(user_id) DO UPDATE SET
-      test = excluded.test,
       accommodationcost = excluded.accommodationcost,
       travelcost = excluded.travelcost,
+      departureref = excluded.departureref,
+      returnref = excluded.returnref,
+      hotelname = excluded.hotelname,
+      flightdate  = excluded.flightdate,
+      flighttime = excluded.flighttime,
+      returndate = excluded.returndate,
+      returntime = excluded.returntime,
       activitiescost = excluded.activitiescost,
       numberofpeople = excluded.numberofpeople,
       traveldesc = excluded.traveldesc,
       hoteldesc = excluded.hoteldesc,
+      checkindate = excluded.checkindate,
+      checkoutdate = excluded.checkoutdate,
       fooddesc = excluded.fooddesc,
       activitiesdesc = excluded.activitiesdesc,
       updated_at = CURRENT_TIMESTAMP
@@ -148,13 +176,21 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
       
     stmt.run(
       userId,
-      test ?? "",
       Number(accommodationcost) || 0,
       Number(travelcost) || 0,
       Number(activitiescost) || 0,
       Number(numberofpeople) || 1,
       traveldesc ?? "",
+      departureref ?? "",
+      returnref ?? "",
+      flightdate ?? "",
+      flighttime ?? "",
+      returndate ?? "",
+      returntime ?? "",
       hoteldesc ?? "",
+      hotelname ?? "",
+      checkindate ?? "",
+      checkoutdate ?? "",
       fooddesc ?? "",
       activitiesdesc ?? ""
     );
