@@ -5,7 +5,7 @@ import { clerkMiddleware, clerkClient, requireAuth, getAuth } from '@clerk/expre
 import db from './db.js'
 
 const app = express()
-const PORT = 3000
+const PORT = Number(process.env.PORT) || 3000
 const publicPath = path.join(process.cwd(), "public");
 
 // Register middleware for JSON request bodies, Clerk authentication, and static frontend files
@@ -300,6 +300,6 @@ app.get("/api/weather", async (req, res) => {
   }
 });
   
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on http://localhost:${PORT}`)
 })
