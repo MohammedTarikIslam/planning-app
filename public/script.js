@@ -202,7 +202,7 @@ async function startApp() {
   }
 
   await clerkInstance.load({
-    publishableKey: "pk_test_Y2FwYWJsZS1tb3NxdWl0by0xOC5jbGVyay5hY2NvdW50cy5kZXYk",
+    publishableKey: "pk_live_Y2xlcmsudGFyaWtpc2xhbS5jb20k",
     ui: {
       ClerkUI: window.__internal_ClerkUICtor,
     },

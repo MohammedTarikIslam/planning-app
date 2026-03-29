@@ -30,7 +30,7 @@ app.get("/api/public", (req, res) => {
   res.json({ message: "This is a public route" });
 });
 
-app.get("/api/protected", requireAuth({ signInUrl: "/sign-in" }), async(req, res) => {
+app.get("/api/protected", requireAuth({ signInUrl: "/" }), async(req, res) => {
   const { userId } = getAuth(req);
   const user = await clerkClient.users.getUser(userId);
 
@@ -59,7 +59,7 @@ function getWeatherText(code: number) {
 }
 
 // Returns the current signed-in user's saved plan data from the database.
-app.get("/api/plans/me", requireAuth(), (req, res) => {
+app.get("/api/plans/me", (req, res) => {
   try{
     
     const {userId} = getAuth(req);
@@ -107,7 +107,7 @@ app.get("/api/plans/me", requireAuth(), (req, res) => {
 });
 
 // Saves a plan for the signed-in user, updating the existing row if one already exists
-app.post("/api/plans/save", requireAuth(), (req, res) => {
+app.post("/api/plans/save", (req, res) => {
   try{
 
     const {userId} = getAuth(req);
