@@ -32,6 +32,10 @@ app.get("/api/public", (req, res) => {
 
 app.get("/api/protected", requireAuth({ signInUrl: "/" }), async(req, res) => {
   const { userId } = getAuth(req);
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  
   const user = await clerkClient.users.getUser(userId);
 
   return res.json({ user })

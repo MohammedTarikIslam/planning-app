@@ -1,8 +1,7 @@
 import Database from "better-sqlite3";
 import path from "path";
-
 const dbPath = process.env.DATABASE_PATH || path.join(process.cwd(), "data.db");
-const db: InstanceType<typeof Database> = new Database(dbPath);
+const db = new Database(dbPath);
 // Create the plans table if it does not already exist
 db.exec(`
   CREATE TABLE IF NOT EXISTS plans (
@@ -32,5 +31,5 @@ db.exec(`
     updated_at TEXT DEFAULT CURRENT_TIMESTAMP
   )
 `);
-
 export default db;
+//# sourceMappingURL=db.js.map
