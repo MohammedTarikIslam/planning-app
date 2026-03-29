@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx ./src/index.ts",
     "build": "npm install && npm rebuild better-sqlite3",
-    "start": "npx tsx src/index.ts"
+    "start": "node dist/index.js"
   },
   "engines": {
     "node": "20.x"
@@ -21,7 +21,10 @@
     "better-sqlite3": "^12.8.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "@types/node": "^25.5.0",
+    "@types/express": "^5.0.6"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
