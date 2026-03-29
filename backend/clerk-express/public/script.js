@@ -1,18 +1,18 @@
 function updateCosts() {
-  const accommodationcost = parseFloat(document.getElementById("accommodationcost").value) || 0;
-  const travelcost = parseFloat(document.getElementById("travelcost").value) || 0;
-  const activitiescost = parseFloat(document.getElementById("activitiescost").value) || 0;
-  const numberofpeople = parseInt(document.getElementById("numberofpeople").value, 10) || 1;
+  const hotelCost = parseFloat(document.getElementById("cost-hotel").value) || 0;
+  const flightCost = parseFloat(document.getElementById("cost-flight").value) || 0;
+  const activitiesCost = parseFloat(document.getElementById("cost-activities").value) || 0;
+  const numberOfPeople = parseInt(document.getElementById("number-of-people").value, 10) || 1;
   
-  const total = travelcost + accommodationcost + activitiescost;
-  const split = total / numberofpeople;
+  const total = flightCost + hotelCost + activitiesCost;
+  const split = total / numberOfPeople;
   
   document.getElementById("total").textContent = total.toFixed(2);
   document.getElementById("split").textContent = split.toFixed(2);
 }
 
 function attachCostListeners() { 
-  ["accommodationcost", "travelcost", "activitiescost", "numberofpeople"].forEach((id) => {
+  ["hotelCost", "flightCost", "activitiesCost", "numberOfPeople"].forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
           element.addEventListener("input", updateCosts);
@@ -42,20 +42,20 @@ async function loadData() {
     return;
   }
   
-  document.getElementById("accommodationcost").value = data.accommodationcost || "0";
-  document.getElementById("travelcost").value = data.travelcost || "0";
-  document.getElementById("activitiescost").value = data.activitiescost || "0";
-  document.getElementById("numberofpeople").value = data.numberofpeople || "1";
+  document.getElementById("cost-hotel").value = data.hotelCost || "0";
+  document.getElementById("cost-flight").value = data.flightCost || "0";
+  document.getElementById("cost-activities").value = data.activitiesCost || "0";
+  document.getElementById("number-of-people").value = data.numberOfPeople || "1";
 
-  document.getElementById("traveldesc").textContent = data.traveldesc || "";
-  document.getElementById("departureref").value = data.departureref || "";
-  document.getElementById("returnref").value = data.returnref || "";
-  document.getElementById("flightdate").value = data.flightdate || "";
-  document.getElementById("flighttime").value = data.flighttime || "";
-  document.getElementById("returndate").value = data.returndate || "";
-  document.getElementById("returntime").value = data.returntime || "";
+  document.getElementById("flights-description").textContent = data.flightsDescription || "";
+  document.getElementById("departure-reference").value = data.departureReference || "";
+  document.getElementById("return-reference").value = data.returnReference || "";
+  document.getElementById("flight-date").value = data.flightDate || "";
+  document.getElementById("flight-time").value = data.flightTime || "";
+  document.getElementById("return-date").value = data.returnDate || "";
+  document.getElementById("return-time").value = data.returnTime || "";
 
-  document.getElementById("hotelname").value = data.hotelname || "";
+  document.getElementById("hotel-name").value = data.hotelName || "";
   document.getElementById("hoteldesc").textContent = data.hoteldesc || "";
   document.getElementById("checkindate").value = data.checkindate || "";
   document.getElementById("checkoutdate").value = data.checkoutdate || "";
@@ -67,48 +67,48 @@ async function loadData() {
 }
 
 async function saveData() {
-  const accommodationcost = document.getElementById("accommodationcost").value;
-  const travelcost = document.getElementById("travelcost").value;
-  const activitiescost = document.getElementById("activitiescost").value;
-  const numberofpeople = document.getElementById("numberofpeople").value;
+  const hotelCost = document.getElementById("cost-hotel").value;
+  const flightCost = document.getElementById("cost-flight").value;
+  const activitiesCost = document.getElementById("cost-activities").value;
+  const numberOfPeople = document.getElementById("number-of-people").value;
 
-  const traveldesc = document.getElementById("traveldesc").textContent.trim();
-  const departureref = document.getElementById("departureref").value;
-  const returnref = document.getElementById("returnref").value;
-  const flightdate = document.getElementById("flightdate").value;
-  const flighttime = document.getElementById("flighttime").value;
-  const returndate = document.getElementById("returndate").value;
-  const returntime = document.getElementById("returntime").value;
+  const departureReference = document.getElementById("departure-reference").value;
+  const returnReference = document.getElementById("return-reference").value;
+  const flightDate = document.getElementById("flight-date").value;
+  const flightTime = document.getElementById("flight-time").value;
+  const returnDate = document.getElementById("return-date").value;
+  const returnTime = document.getElementById("return-time").value;
+  const flightsDescription = document.getElementById("flights-description").textContent.trim();
 
-  const hotelname = document.getElementById("hotelname").value;
-  const hoteldesc = document.getElementById("hoteldesc").textContent.trim();
-  const checkindate = document.getElementById("checkindate").value;
-  const checkoutdate = document.getElementById("checkoutdate").value;
-  
-  const fooddesc = document.getElementById("fooddesc").textContent.trim();
-  const activitiesdesc = document.getElementById("activitiesdesc").textContent.trim();
+  const hotelName = document.getElementById("hotel-name").value;
+  const hotelDescription = document.getElementById("hotel-description").textContent.trim();
+  const checkInDate = document.getElementById("check-in-date").value;
+  const checkOutDate = document.getElementById("check-out-date").value;
+
+  const foodDescription = document.getElementById("food-description").textContent.trim();
+  const activitiesDescription = document.getElementById("activities-description").textContent.trim();
 
   const data = {
-    accommodationcost,
-    travelcost,
-    activitiescost,
-    numberofpeople,
+    hotelCost,
+    flightCost,
+    activitiesCost,
+    numberOfPeople,
 
-    traveldesc,
-    departureref,
-    returnref,
-    flightdate,
-    flighttime,
-    returndate,
-    returntime,
+    flightsDescription,
+    departureReference,
+    returnReference,
+    flightDate,
+    flightTime,
+    returnDate,
+    returnTime,
     
-    hotelname,
-    hoteldesc,
-    checkindate,
-    checkoutdate,
+    hotelName,
+    hotelDescription,
+    checkInDate,
+    checkOutDate,
     
-    fooddesc,
-    activitiesdesc,
+    foodDescription,
+    activitiesDescription,
   };
 
   const response = await fetch("/api/plans/save", {
@@ -150,9 +150,6 @@ async function startApp() {
   if (!appContent) {
     throw new Error('Missing <div id="app-content"></div> in index.html');
   }
-
-  // const signInDiv = document.getElementById("clerk-sign-in");
-  // const userButtonDiv = document.getElementById("clerk-user-button");
   
   window.saveData = saveData;
   attachCostListeners();

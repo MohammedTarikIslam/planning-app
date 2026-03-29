@@ -15,7 +15,7 @@ body {
   min-height: 100%;
 }
 
-.authpage {
+.auth-page {
   backdrop-filter: blur(3px);
   min-height: 100vh;
   width: 100vw;
@@ -24,7 +24,7 @@ body {
   align-items: center;
 }
 
-.savebutton {
+.save-button {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
   border: none;
@@ -57,15 +57,15 @@ header {
   text-align: center;
 }
 
-.intro {
+.app-title {
   background: transparent;
   backdrop-filter: blur(3px);
   margin: 0.5rem;
   padding: 2rem;
   border-radius: 4rem;
 
-  color: map.get($font-color, intro);
-  font-weight: map.get($font-weight, intro);
+  color: map.get($font-colour, app-title);
+  font-weight: map.get($font-weight, app-title);
   text-align: center;
   font-size: 4rem;
 
@@ -94,12 +94,13 @@ header {
   }
 }
 
-.allcards {
+.all-cards {
   padding: 2rem;
   margin: auto;
   border-radius: 1rem;
   background: transparent;
   backdrop-filter: blur(3px);
+  
   display: grid;
   max-width: 1300px;
   width: 80%;
@@ -120,12 +121,8 @@ header {
   padding : 0.5rem;
   box-shadow: 4px 8px 8px rgb(44, 44, 44);
   &__title {
-    color: map.get($font-color, title);
+    color: map.get($font-colour, title);
     text-align: center;
-    margin: 0.5rem;
-  }
-  &__description {
-    color: map.get($font-color, body);
     margin: 0.5rem;
   }
 }
@@ -137,7 +134,7 @@ header {
   @media (max-width: 1240px) {
     grid-column: span 1;
   }
-  &__info {
+  &__information {
     @media (min-width: 640px) {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
@@ -160,7 +157,7 @@ header {
   }
 }
 
-.sectioned-cost {
+.cost-section {
   margin-top: 1rem;
 }
 
@@ -171,7 +168,7 @@ header {
   @media (max-width: 1240px) {
     grid-column: span 1;
   }
-  &__info {
+  &__information {
     @media (min-width: 640px) {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
@@ -186,11 +183,6 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   }
-  &__details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-  }
-  
   transition: filter 500ms ease-in;
 
   &:hover {

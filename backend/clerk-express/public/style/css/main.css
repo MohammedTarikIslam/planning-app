@@ -10,7 +10,7 @@ body {
   min-height: 100%;
 }
 
-.authpage {
+.auth-page {
   backdrop-filter: blur(3px);
   min-height: 100vh;
   width: 100vw;
@@ -19,7 +19,7 @@ body {
   align-items: center;
 }
 
-.savebutton {
+.save-button {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
   border: none;
@@ -32,7 +32,7 @@ body {
   filter: grayscale(0.75);
   transition: filter 500ms ease-in;
 }
-.savebutton:hover {
+.save-button:hover {
   filter: grayscale(0);
 }
 
@@ -48,7 +48,7 @@ header {
   text-align: center;
 }
 
-.intro {
+.app-title {
   background: transparent;
   backdrop-filter: blur(3px);
   margin: 0.5rem;
@@ -60,13 +60,13 @@ header {
   font-size: 4rem;
 }
 @media (max-width: 480px) {
-  .intro {
+  .app-title {
     font-size: 2rem;
     padding: 1rem;
   }
 }
 @media (min-width: 481px) and (max-width: 768px) {
-  .intro {
+  .app-title {
     font-size: 3rem;
     padding: 1rem;
   }
@@ -85,7 +85,7 @@ header {
   filter: grayscale(0);
 }
 
-.allcards {
+.all-cards {
   padding: 2rem;
   margin: auto;
   border-radius: 1rem;
@@ -99,7 +99,7 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
 }
 @media (max-width: 480px) {
-  .allcards {
+  .all-cards {
     grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
   }
 }
@@ -117,10 +117,6 @@ header {
   text-align: center;
   margin: 0.5rem;
 }
-.card__description {
-  color: black;
-  margin: 0.5rem;
-}
 
 @media (min-width: 1240px) {
   .hotels {
@@ -133,13 +129,13 @@ header {
   }
 }
 @media (min-width: 640px) {
-  .hotels__info {
+  .hotels__information {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   }
 }
 @media (max-width: 640px) {
-  .hotels__info {
+  .hotels__information {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -156,7 +152,7 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 }
 
-.sectioned-cost {
+.cost-section {
   margin-top: 1rem;
 }
 
@@ -171,21 +167,17 @@ header {
   }
 }
 @media (min-width: 640px) {
-  .flights__info {
+  .flights__information {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
   }
 }
 @media (max-width: 640px) {
-  .flights__info {
+  .flights__information {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
   }
-}
-.flights__details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
 }
 .flights__details {
   display: grid;
