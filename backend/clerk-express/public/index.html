@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style/css/main.css" />
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script> -->
   <script
     defer
     crossorigin="anonymous"
@@ -23,6 +22,7 @@
   <title>Holiday Planning App</title>
 </head>
 <body>
+  <!-- Clerk Auth -->
   <div id="app" class="auth-page"></div>
   <div id="app-content" style="display:none;">
     <div id="user-button-slot"></div>
@@ -38,22 +38,22 @@
       <h2 class="card__title">Cost</h2>
       
       <div class="cost-section">
-        <label for="number-of-people">Number of people:</label>
+        <label for="number-of-people">Number of people: <br></label>
         <input type="number" id="number-of-people" value="1" min="1">
       </div>
 
       <div class="cost-section">
-        <label for="cost-hotel">Hotel cost:</label>
+        <label for="cost-hotel">Hotel cost:<br></label>
         <input type="number" id="cost-hotel" value="0">
       </div>
 
       <div class="cost-section">
-        <label for="cost-flight">Flight cost:</label>
+        <label for="cost-flight">Flight cost:<br></label>
         <input type="number" id="cost-flight" value="0">
       </div>
 
       <div class="cost-section">
-        <label for="cost-activities">Activities cost:</label>
+        <label for="cost-activities">Activities cost:<br></label>
         <input type="number" id="cost-activities" value="0">
       </div>
 
@@ -72,18 +72,22 @@
 
     <div class="card flights">
       <h2 class="card__title">Flights</h2>
-      <div class="flights__info">
-        <label for="departure-reference">Departure Flight Reference:</label>
-        <input type="text" id="departure-reference" placeholder="Enter departure flight reference">
-        <label for="return-reference">Return Flight Reference:</label>
-        <input type="text" id="return-reference" placeholder="Enter return flight reference">
-      </div>
-
-      <div class="flights__information">
+      <div class="flights__details">
+        <div class="departure-information">
+          <label for="departure-reference">Departure Flight Reference:</label>
+          <input type="text" id="departure-reference" placeholder="Enter departure flight reference">
+        </div>
         <div class="departure-information">
           <label for="flight-date">Departure flight:</label>
           <input type="date" id="flight-date">
           <input type="time" id="flight-time">
+        </div>
+      </div>
+      
+      <div class="flights__information">
+        <div class="return-information">
+          <label for="return-reference">Return Flight Reference:</label>
+          <input type="text" id="return-reference" placeholder="Enter return flight reference">
         </div>
         <div class="return-information">
           <label for="return-date">Return flight:</label>
@@ -125,7 +129,10 @@
 
     <div class="card weather">
       <h2 class="card__title">Weather</h2>
-      <p contenteditable="true" id="weather-description" data-placeholder="Enter the weather details"></p>
+      <label for="location">Location:</label>
+      <input type="text" id="location" placeholder="Enter destination">
+      <p id="weather-status">Enter location and dates</p>
+      <div id="weather-output"></div>
     </div>
 
   </section>

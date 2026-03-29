@@ -1,3 +1,4 @@
+// Recalculates the total trip cost and the per person split whenever a cost input changes
 function updateCosts() {
   const hotelCost = parseFloat(document.getElementById("cost-hotel").value) || 0;
   const flightCost = parseFloat(document.getElementById("cost-flight").value) || 0;
@@ -11,8 +12,9 @@ function updateCosts() {
   document.getElementById("split").textContent = split.toFixed(2);
 }
 
+// Attaches input listeners so the cost summary updates in real time without reloading the page
 function attachCostListeners() { 
-  ["hotelCost", "flightCost", "activitiesCost", "numberOfPeople"].forEach((id) => {
+  ["cost-hotel", "cost-flight", "cost-activities", "number-of-people"].forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
           element.addEventListener("input", updateCosts);
@@ -21,6 +23,11 @@ function attachCostListeners() {
     );
 }
 
+document.getElementById("location").addEventListener("input", loadWeather);
+document.getElementById("flight-date").addEventListener("change", loadWeather);
+document.getElementById("return-date").addEventListener("change", loadWeather);
+
+// Loads the signed-in user's saved plan from the backend and fills in the cards
 async function loadData() {
   const response = await fetch("/api/plans/me");
   
@@ -42,6 +49,7 @@ async function loadData() {
     return;
   }
   
+  // Restore saved values
   document.getElementById("cost-hotel").value = data.hotelCost || "0";
   document.getElementById("cost-flight").value = data.flightCost || "0";
   document.getElementById("cost-activities").value = data.activitiesCost || "0";
@@ -56,16 +64,19 @@ async function loadData() {
   document.getElementById("return-time").value = data.returnTime || "";
 
   document.getElementById("hotel-name").value = data.hotelName || "";
-  document.getElementById("hoteldesc").textContent = data.hoteldesc || "";
-  document.getElementById("checkindate").value = data.checkindate || "";
-  document.getElementById("checkoutdate").value = data.checkoutdate || "";
+  document.getElementById("hotel-description").textContent = data.hotelDescription || "";
+  document.getElementById("check-in-date").value = data.checkInDate || "";
+  document.getElementById("check-out-date").value = data.checkOutDate || "";
   
-  document.getElementById("fooddesc").textContent = data.fooddesc || "";
-  document.getElementById("activitiesdesc").textContent = data.activitiesdesc || "";
+  document.getElementById("food-description").textContent = data.foodDescription || "";
+  document.getElementById("activities-description").textContent = data.activitiesDescription || "";
+  document.getElementById("location").value = data.location || "";
   
+  loadWeather();
   updateCosts();
 }
 
+// Collects the current values and sends them to the backend to be inserted in SQLite
 async function saveData() {
   const hotelCost = document.getElementById("cost-hotel").value;
   const flightCost = document.getElementById("cost-flight").value;
@@ -87,6 +98,7 @@ async function saveData() {
 
   const foodDescription = document.getElementById("food-description").textContent.trim();
   const activitiesDescription = document.getElementById("activities-description").textContent.trim();
+  const location = document.getElementById("location").value;
 
   const data = {
     hotelCost,
@@ -109,6 +121,7 @@ async function saveData() {
     
     foodDescription,
     activitiesDescription,
+    location,
   };
 
   const response = await fetch("/api/plans/save", {
@@ -127,6 +140,61 @@ async function saveData() {
   alert("Saved.");
 }
 
+// Requests weather data when a location and both travel dates are available
+async function loadWeather() {
+  const location = document.getElementById("location").value;
+  const departure = document.getElementById("flight-date").value;
+  const returnDate = document.getElementById("return-date").value;
+
+  const status = document.getElementById("weather-status");
+  const output = document.getElementById("weather-output");
+
+  if (!location || !departure || !returnDate) {
+    status.textContent = "Enter location and dates";
+    output.innerHTML = "";
+    return;
+  }
+
+  try {
+    status.textContent = "Loading...";
+    output.innerHTML = "";
+
+    const res = await fetch(
+      `/api/weather?location=${encodeURIComponent(location)}&departure=${departure}&returnDate=${returnDate}`
+    );
+
+    const data = await res.json();
+
+    if (!data.forecastAvailable) {
+      status.textContent = data.message;
+      return;
+    }
+
+    status.textContent = `${data.location}, ${data.country}`;
+
+    // Display a simple summary for the departure and return forecast returned by the API
+    output.innerHTML = `
+      <div>
+        <strong>Departure (${data.departureWeather.date})</strong><br>
+        ${data.departureWeather.condition}<br>
+        ${data.departureWeather.max}° / ${data.departureWeather.min}°<br>
+        Rain: ${data.departureWeather.rain}%
+      </div>
+
+      <div>
+        <strong>Return (${data.returnWeather.date})</strong><br>
+        ${data.returnWeather.condition}<br>
+        ${data.returnWeather.max}° / ${data.returnWeather.min}°<br>
+        Rain: ${data.returnWeather.rain}%
+      </div>
+    `;
+
+  } catch (err) {
+    status.textContent = "Could not load weather";
+  }
+}
+
+// Initialises Clerk authentication and decides whether to show the sign-in screen or the main app
 async function startApp() {
   const clerkInstance = window.Clerk;
   if (!clerkInstance) {
@@ -155,6 +223,7 @@ async function startApp() {
   attachCostListeners();
   updateCosts();
 
+  // Signed-in users see the planner but signed-out users see the Clerk sign-in component
   if (clerkInstance.isSignedIn) {
     appDiv.innerHTML = "";
     appDiv.style.display = "none";

@@ -1,12 +1,9 @@
-//STORE VARIABLES TO MAKE ADJUSTING EASIER
-//stores colour as variable
+// SCSS variable maps used to keep colours and typography consistent
 $background-colour: (
   "page": lightblue,
   "card": white,
-  //"body": blue,
 );
 
-//stores map of variables
 $font-colour: (
   "app-title": white,
   "title": black,

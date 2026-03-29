@@ -156,12 +156,12 @@ header {
   margin-top: 1rem;
 }
 
-@media (min-width: 1240px) {
+@media (min-width: 820px) {
   .flights {
     grid-column: span 2;
   }
 }
-@media (max-width: 1240px) {
+@media (max-width: 820px) {
   .flights {
     grid-column: span 1;
   }
@@ -205,14 +205,14 @@ header {
   color: #3f3f3f;
 }
 
-@media (min-width: 481px) and (max-width: 1052px) {
+@media (max-width: 1240px) {
   .cost {
     order: 0;
   }
-  .flights {
+  .hotels {
     order: 1;
   }
-  .hotels {
+  .flights {
     order: 2;
   }
   .food {

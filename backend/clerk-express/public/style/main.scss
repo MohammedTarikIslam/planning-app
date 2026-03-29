@@ -2,7 +2,6 @@
 @use "sass:map";
 
 body {
-  //background-image: url(./images/pexels-stephan-seeber-1054201.jpg);
   background-image: url(../../images/pexels-stephan-seeber-1054201.jpg);
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -15,6 +14,7 @@ body {
   min-height: 100%;
 }
 
+// Full-screen centred container used for the authentication screen
 .auth-page {
   backdrop-filter: blur(3px);
   min-height: 100vh;
@@ -94,6 +94,7 @@ header {
   }
 }
 
+// Responsive grid layout for the main planner cards
 .all-cards {
   padding: 2rem;
   margin: auto;
@@ -127,6 +128,7 @@ header {
   }
 }
 
+// Hotel card spans more columns on larger screens to give the form more room
 .hotels {
   @media (min-width: 1240px) {
     grid-column: span 2;
@@ -147,6 +149,7 @@ header {
   }
 }
 
+// Cost card is taller on larger screens so the summary section stays grouped with the inputs
 .cost {
   @media (min-width: 769px) {
     grid-row: span 2;
@@ -161,11 +164,12 @@ header {
   margin-top: 1rem;
 }
 
+// Flight card expands horizontally on larger layouts because it contains more grouped inputs
 .flights {
-  @media (min-width: 1240px) {
+  @media (min-width: 820px) {
     grid-column: span 2;
   }
-  @media (max-width: 1240px) {
+  @media (max-width: 820px) {
     grid-column: span 1;
   }
   &__information {
@@ -206,14 +210,14 @@ header {
   }
 }
 
-@media (min-width: 481px) and (max-width: 1052px) {
+@media (max-width: 1240px) {
   .cost {
     order: 0;
   }
-  .flights {
+  .hotels {
     order: 1;
   }
-  .hotels {
+  .flights {
     order: 2;
   }
   .food {

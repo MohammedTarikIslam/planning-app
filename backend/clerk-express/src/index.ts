@@ -8,6 +8,7 @@ const app = express()
 const PORT = 3000
 const publicPath = path.join(process.cwd(), "public");
 
+// Register middleware for JSON request bodies, Clerk authentication, and static frontend files
 app.use(express.json());
 app.use(clerkMiddleware())
 app.use(express.static(publicPath));
@@ -15,11 +16,12 @@ app.use(express.static(publicPath));
 console.log("PUBLISHABLE:", process.env.CLERK_PUBLISHABLE_KEY);
 console.log("SECRET:", process.env.CLERK_SECRET_KEY ? "loaded" : "missing");
   
-// This is the default route that gives the home page
+// Serve the main frontend page from the public folder
 app.get("/", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });
 
+// A simple health check route to verify the server is running
 app.get("/api/health", (req, res) => {
   res.json({ ok: true });
 });
@@ -32,13 +34,10 @@ app.get("/api/protected", requireAuth({ signInUrl: "/sign-in" }), async(req, res
   const { userId } = getAuth(req);
   const user = await clerkClient.users.getUser(userId);
 
-  // res.json({
-  //   message: "You are signed in",
-  //   userId: auth.userId,
-  // });
   return res.json({ user })
 });
 
+// A route to check the authentication status of the user
 app.get("/api/check-auth", (req, res) => {
   const auth = getAuth(req);
   res.json({
@@ -47,12 +46,21 @@ app.get("/api/check-auth", (req, res) => {
   });
 });
 
-//load function
+// Converts Open-meteo weather codes into short descriptions
+function getWeatherText(code: number) {
+  if (code === 0) return "Clear sky";
+  if ([1,2,3].includes(code)) return "Partly cloudy";
+  if ([45,48].includes(code)) return "Fog";
+  if ([51,53,55].includes(code)) return "Drizzle";
+  if ([61,63,65].includes(code)) return "Rain";
+  if ([71,73,75].includes(code)) return "Snow";
+  if (code === 95) return "Thunderstorm";
+  return "Unknown";
+}
+
+// Returns the current signed-in user's saved plan data from the database.
 app.get("/api/plans/me", requireAuth(), (req, res) => {
   try{
-  
-    // const auth = getAuth(req);
-    // const userId = auth.userId;
     
     const {userId} = getAuth(req);
 
@@ -78,7 +86,8 @@ app.get("/api/plans/me", requireAuth(), (req, res) => {
       checkOutDate,
       hotelDescription,
       foodDescription,
-      activitiesDescription
+      activitiesDescription,
+      location
       FROM plans
       WHERE user_id = ?
       `);
@@ -97,18 +106,15 @@ app.get("/api/plans/me", requireAuth(), (req, res) => {
   }
 });
 
-//save function
+// Saves a plan for the signed-in user, updating the existing row if one already exists
 app.post("/api/plans/save", requireAuth(), (req, res) => {
   try{
-    // const auth = getAuth(req);
-    // const userId = auth.userId;
-    
+
     const {userId} = getAuth(req);
 
-  if (!userId) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-      
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
       
     const {
       hotelCost,
@@ -128,6 +134,7 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
       hotelDescription,
       foodDescription,
       activitiesDescription,
+      location
     } = req.body;
     
     const stmt = db.prepare(`
@@ -150,9 +157,10 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
         hotelDescription,
         foodDescription,
         activitiesDescription,
+        location,
         updated_at
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(user_id) DO UPDATE SET
       hotelCost = excluded.hotelCost,
       flightCost = excluded.flightCost,
@@ -171,6 +179,7 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
       hotelDescription = excluded.hotelDescription,
       foodDescription = excluded.foodDescription,
       activitiesDescription = excluded.activitiesDescription,
+      location = excluded.location,
       updated_at = CURRENT_TIMESTAMP
       `);
       
@@ -192,7 +201,8 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
       checkOutDate ?? "",
       hotelDescription ?? "",
       foodDescription ?? "",
-      activitiesDescription ?? ""
+      activitiesDescription ?? "",
+      location ?? ""
     );
       
     return res.json({ ok: true });
@@ -202,7 +212,93 @@ app.post("/api/plans/save", requireAuth(), (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-  
+
+// Retrieves weather data by first geocoding the destination name and then requesting a forecast for the trip dates
+app.get("/api/weather", async (req, res) => {
+  try {
+    const { location, departure, returnDate } = req.query;
+
+    // Stop early if the frontend has not provided enough information to request a forecast
+    if (!location || !departure || !returnDate) {
+      return res.status(400).json({ error: "Missing parameters" });
+    }
+
+    const geoRes = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(String(location))}&count=1`
+    );
+    const geoData = await geoRes.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+      return res.json({ forecastAvailable: false, message: "Location not found" });
+    }
+
+    const place = geoData.results[0];
+
+    const lat = place.latitude;
+    const lon = place.longitude;
+
+    const today = new Date();
+    const depDate = new Date(departure as string);
+
+    const diffDays = Math.ceil(
+      (depDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    // Open-Meteo only provides a limited forecast window so future trips beyond that range are rejected
+    if (diffDays > 16) {
+      return res.json({
+        forecastAvailable: false,
+        message: "Forecast not available yet"
+      });
+    }
+
+    const weatherRes = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&start_date=${departure}&end_date=${returnDate}`
+    );
+
+    const weatherData = await weatherRes.json();
+
+    const daily = weatherData.daily;
+    if (!daily || !daily.time || daily.time.length === 0) {
+      return res.json({
+        forecastAvailable: false,
+        message: "Weather data unavailable"
+      });
+    }
+
+    const firstIndex = 0;
+    const lastIndex = daily.time.length - 1;
+
+    // Extract the first and last forecast day
+    const departureWeather = {
+      date: daily.time[firstIndex],
+      max: daily.temperature_2m_max[firstIndex],
+      min: daily.temperature_2m_min[firstIndex],
+      rain: daily.precipitation_probability_max[firstIndex],
+      condition: getWeatherText(daily.weather_code[firstIndex])
+    };
+
+    const returnWeather = {
+      date: daily.time[lastIndex],
+      max: daily.temperature_2m_max[lastIndex],
+      min: daily.temperature_2m_min[lastIndex],
+      rain: daily.precipitation_probability_max[lastIndex],
+      condition: getWeatherText(daily.weather_code[lastIndex])
+    };
+
+    return res.json({
+      forecastAvailable: true,
+      location: place.name,
+      country: place.country,
+      departureWeather,
+      returnWeather
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Weather fetch failed" });
+  }
+});
   
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)

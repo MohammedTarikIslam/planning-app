@@ -4,6 +4,7 @@ import path from "path";
 const dbPath = path.join(process.cwd(), "data.db");
 const db = new Database(dbPath);
 
+// Create the plans table if it does not already exist
 db.exec(`
   CREATE TABLE IF NOT EXISTS plans (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,6 +28,7 @@ db.exec(`
     checkOutDate TEXT,
     foodDescription TEXT,
     activitiesDescription TEXT,
+    location TEXT,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT DEFAULT CURRENT_TIMESTAMP
   )
